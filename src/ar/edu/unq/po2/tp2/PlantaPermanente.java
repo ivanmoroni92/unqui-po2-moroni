@@ -1,14 +1,15 @@
 package ar.edu.unq.po2.tp2;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class PlantaPermanente  extends Empleado {
 	
 	private int cantHijos ;
 	private int antiguedad ;
-	private boolean conyuge = false ;
 	
-	public PlantaPermanente (String nombre,String direccion, String estadoCivil,LocalDate fechaDeNacimiento, double sueldoBasico, int cantHijos, int antiguedad) {
+	
+	public PlantaPermanente (String nombre,String direccion, Boolean estadoCivil,LocalDate fechaDeNacimiento, double sueldoBasico, int cantHijos, int antiguedad) {
 		super(nombre,direccion,estadoCivil,fechaDeNacimiento,sueldoBasico) ;
 		this.cantHijos = cantHijos ;
 		this.antiguedad = antiguedad ;
@@ -31,14 +32,8 @@ public class PlantaPermanente  extends Empleado {
 	}
 	
 	
-	public  void setConyuge( Boolean conyugue) {
-		this.conyuge = conyugue ;
-	}
 	
-	
-	
-	
-	private double  getSalarioFamiliar() {
+	public double  getSalarioFamiliar() {
 		return this.getAsignacionPorHijo() + this.getAsignacionPorConyuge() ;
 	}
 	
@@ -47,11 +42,11 @@ public class PlantaPermanente  extends Empleado {
 	}
 	
 	private int getAsignacionPorConyuge() {
-		return  conyuge ? 100 : 0;
+		return  estadoCivil ? 100 : 0;
 	}
 	
 	
-	private int getSalarioPorAntiguedad() {
+	public int getSalarioPorAntiguedad() {
 		return antiguedad * 50 ;
 	}
 	
@@ -76,6 +71,15 @@ public class PlantaPermanente  extends Empleado {
 	protected double gastosPorAporteJubilatorio() {
 		return this.getSueldoBruto() * 0.15 ;
 	}
+	
+	@Override
+	 protected ArrayList<DesgloceDeConcepto> listaDeConceptos() {
+	    	ArrayList<DesgloceDeConcepto> arrConcepto = super.listaDeConceptos();
+	    	arrConcepto.add(new DesgloceDeConcepto("SUELDO BASICO", this.getSueldoBasico()));
+	    	arrConcepto.add(new DesgloceDeConcepto("SALARIO FAMILIAR", this.getSalarioFamiliar()));
+	    	arrConcepto.add(new DesgloceDeConcepto("SALARIO POR ANTIGUEDAD", this.getSalarioPorAntiguedad()));
+	    	return arrConcepto ;
+	   } 
 	
 	 
 }

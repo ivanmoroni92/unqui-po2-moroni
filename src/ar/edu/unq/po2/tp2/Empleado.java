@@ -1,20 +1,23 @@
 package ar.edu.unq.po2.tp2;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 
 public abstract class Empleado {
   protected String nombre ;
   protected String direccion ;
-  protected String estadoCivil ;
+  protected Boolean estadoCivil ;
   protected LocalDate  fechaDeNacimiento ;
   protected double sueldoBasico ;
+  private  ArrayList<ReciboDeHaberes> recibosDehaberes;
   
-  public Empleado(String nombre,String direccion, String estadoCivil,LocalDate fechaDeNacimiento, double sueldoBasico) {
+  public Empleado(String nombre,String direccion, Boolean estadoCivil,LocalDate fechaDeNacimiento, double sueldoBasico) {
 	  this.nombre = nombre ;
 	  this.direccion = direccion ;
 	  this.estadoCivil = estadoCivil ;
 	  this.fechaDeNacimiento = fechaDeNacimiento ;
 	  this.sueldoBasico = sueldoBasico ;
+	  this.recibosDehaberes = new ArrayList<ReciboDeHaberes>() ;
 	  
   }
   
@@ -32,11 +35,11 @@ public abstract class Empleado {
 	  this.direccion = direccion ;
    }
 // EstadoCivil del empleado
-   public String getEstadoCivil() {
+   public Boolean getEstadoCivil() {
 	   return estadoCivil ;
    }
    
-   public void setEstadoCivil(String estadoCivil ) {
+   public void setEstadoCivil(Boolean estadoCivil ) {
 	  this.estadoCivil = estadoCivil ;
    }
    
@@ -87,6 +90,29 @@ public abstract class Empleado {
   
    protected abstract double gastosPorObraSocial() ;
    protected abstract double gastosPorAporteJubilatorio();
+   
+   
+   public ArrayList<ReciboDeHaberes> getRecibosDehaberes() {
+ 		return recibosDehaberes;
+ 	   }
+
+    protected void addReciboDehaberes(ReciboDeHaberes reciboDehaberes) {
+ 		recibosDehaberes.add(reciboDehaberes);
+ 	   }
+    
+    protected void createAndSaveReciboDehaberes()   {
+    	this.addReciboDehaberes( new ReciboDeHaberes(this));
+
+ 	   }
+    
+    
+    protected ArrayList<DesgloceDeConcepto> listaDeConceptos() {
+    	ArrayList<DesgloceDeConcepto> arrConcepto = new ArrayList<DesgloceDeConcepto>() ;
+    	arrConcepto.add(new DesgloceDeConcepto("OBRA SOCIAL", -this.gastosPorObraSocial()));
+    	arrConcepto.add(new DesgloceDeConcepto("APORTE JUBILATORIO", -this.gastosPorAporteJubilatorio()));
+    	return arrConcepto ;
+    } 
+    
    
   /*
    * 

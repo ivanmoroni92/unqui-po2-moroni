@@ -7,42 +7,88 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class  PlantaTemporariaTest {
-    private Empleado empleado1 ;
-    private LocalDate fecha;
+    private Empleado ivan ;
+    private LocalDate fechaDeNacimineto;
+    private LocalDate fechaFinDesignacion;
+    
     @BeforeEach
 	public void setUp() {
-    	fecha = LocalDate.of(1992,10,27) ;
-    	empleado1 = new PlantaTemporaria("ivan","martin fierro 1165","Soltero",fecha,300000,fecha, 2) ;
+    	fechaDeNacimineto = LocalDate.of(1992,10,27) ;
+    	fechaFinDesignacion = LocalDate.of(2023,12,31) ;
+    	ivan = new PlantaTemporaria("Ivan","Martin Fierro 1165",true ,fechaDeNacimineto,300000,fechaFinDesignacion, 10) ;
 	}
     
-	@Test
-	 public void nombreDelEmpleado() {
-		assertEquals(empleado1.getNombre(), "ivan");
-	}
-	
-	@Test
-	 public void direccionDelEmpleado() {
-		assertEquals(empleado1.getDireccion(), "martin fierro 1165");
-	}
-	
 
 	@Test
-	 public void fechaDeNacimientoDelEmpleado() {
-		assertEquals(empleado1.getFechaDeNacimiento(),LocalDate.of(1992,10,27));
+	public void nombre() {
+		assertEquals("Ivan",ivan.getNombre() );
+	}
+	
+	
+	@Test
+	public void direccion() {
+		assertEquals("Martin Fierro 1165",ivan.getDireccion() );
 	}
 	
 	@Test
-	 public void estadoCivilEmpleado() {
-		assertEquals(empleado1.getEstadoCivil(), "Soltero");
+	public void estadoCivil() {
+		assertTrue(ivan.getEstadoCivil());
 	}
 	
 	@Test
-	 public void edadDelEmpleado() {
-		assertEquals(empleado1.getEdad(), 30);
+	public void fechaDeNacimiento() {
+		LocalDate fechaDeNacimiento2 =  LocalDate.of(1992,10,27) ;
+		assertEquals(fechaDeNacimiento2,ivan.getFechaDeNacimiento() );
 	}
+	
 	@Test
-	 public void SueldoDelEmpleado() {
-		assertEquals(empleado1.getSueldoBasico(), 300000);
+	public void sueldoBasico() {
+		assertEquals(300000, ivan.getSueldoBasico());
+	}
+	
+	
+	@Test
+	public void sueldoBruto() {
+		assertEquals(300400, ivan.getSueldoBruto());
+			
+	}
+	
+	
+	@Test
+	public void gastosPorObraSocial() {
+		assertEquals(30040, ivan.gastosPorObraSocial());
+			
+	}
+	
+	@Test
+	public void gastosPorAporteJubilatorio() {
+		assertEquals(30090, ivan.gastosPorAporteJubilatorio());
+			
+	}
+	
+	@Test
+	public void restricciones() {
+		assertEquals(60130, ivan.getRestricciones());
+			
+	}
+	
+	@Test
+	public void sueldoNeto() {
+		assertEquals(240270, ivan.getSueldoNeto());
+			
+	}
+	
+	@Test
+	public void cantidadDeRecibosLiquidados() {
+		assertEquals(2, ivan.getRecibosDehaberes().size());
+
+	}
+	
+	
+	@Test
+	public void ReciboDeHaberesDeIvan() {
+		assertEquals("Ivan", ivan.getRecibosDehaberes().get(0).getNombreDelEmpleado());
+        assertEquals(240270, ivan.getRecibosDehaberes().get(0).getSueldoNeto());
 	}
 
 }

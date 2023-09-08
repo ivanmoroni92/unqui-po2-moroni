@@ -1,5 +1,6 @@
 package ar.edu.unq.po2.tp2;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 
 public class PlantaTemporaria extends Empleado {
@@ -7,7 +8,7 @@ public class PlantaTemporaria extends Empleado {
 	private  LocalDate fechaFinDesignacion  ;
 	private int horasExtra ;
 	
-	public PlantaTemporaria (String nombre,String direccion, String estadoCivil,LocalDate fechaDeNacimiento, double sueldoBasico,LocalDate fechaFinDesignacion, int horasExtra ) {
+	public PlantaTemporaria (String nombre,String direccion, Boolean estadoCivil,LocalDate fechaDeNacimiento, double sueldoBasico,LocalDate fechaFinDesignacion, int horasExtra ) {
 		super(nombre,direccion,estadoCivil,fechaDeNacimiento,sueldoBasico) ;
 		this.fechaFinDesignacion = fechaFinDesignacion ;
 		this.horasExtra = horasExtra ;
@@ -48,7 +49,7 @@ public class PlantaTemporaria extends Empleado {
 	@Override
 	
 	protected double gastosPorObraSocial() {
-		return this.getSueldoBruto() * 0.1 + this.getEdad() > 50 ? 25  : 0 ;
+		return this.getSueldoBruto() * 0.1 + ( this.getEdad() > 50 ? 25  : 0) ;
 	}
 	
 	
@@ -56,6 +57,16 @@ public class PlantaTemporaria extends Empleado {
 	protected double gastosPorAporteJubilatorio() {
 		return this.getSueldoBruto() * 0.1 +  this.getHorasExtra() * 5;
 	}
+	
+	
+	@Override
+	 protected ArrayList<DesgloceDeConcepto> listaDeConceptos() {
+	    	ArrayList<DesgloceDeConcepto> arrConcepto = super.listaDeConceptos();
+	    	arrConcepto.add(new DesgloceDeConcepto("SUELDO BASICO", this.getSueldoBasico()));
+	    	arrConcepto.add(new DesgloceDeConcepto("HORAS EXTRA", this.getSalarioHorasExtra()));
+	    	return arrConcepto ;
+	   } 
+	
 	
 	
 	
